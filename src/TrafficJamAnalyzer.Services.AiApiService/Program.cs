@@ -52,7 +52,7 @@ app.MapGet("/analyze/{identifier}", async (string identifier, ILogger<Program> l
 
     var imageUrl = $"http://cic.tenerife.es/e-Traffic3/data/{identifier}.jpg";
 
-    var prompt = @"Analize the image, return a JSON object with the fields 'Title', 'Traffic' and 'Date'. 
+    var prompt = @"Analyze the image, return a JSON object with the fields 'Title', 'Traffic' and 'Date'. 
 Extract the text from the top left corner of the image and assign the extracted text to the JSON field 'Title'. 
 Extract the text from the bottom right corner of the image and assign the extracted text to the JSON field 'Date'. 
 Analyze the amount of traffic in the image. Based on the amount of traffic, define a value from 0 to 100, where 0 is no traffic and 100 is heavy traffic. Assign the integer value of the traffic to the JSON field 'Traffic'.
