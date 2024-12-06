@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Apps", "1. Apps", "{1EA7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Microservices", "2. Microservices", "{AD7A9895-B3BD-4093-A5DA-00AF6F530A69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microservices.AiApiService", "TrafficJamAnalyzer.Services.AiApiService\TrafficJamAnalyzer.Microservices.AiApiService.csproj", "{7CD7E004-57E7-45D0-A81E-EED363683342}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microservices.AiApiService.Ollama", "TrafficJamAnalyzer.Services.AiApiService\TrafficJamAnalyzer.Microservices.AiApiService.Ollama.csproj", "{7CD7E004-57E7-45D0-A81E-EED363683342}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microservices.ScraperApiService", "TrafficJamAnalyzer.Services.ScraperApiService\TrafficJamAnalyzer.Microservices.ScraperApiService.csproj", "{86546881-BF50-431E-84F9-A06B93C34A5E}"
 EndProject
