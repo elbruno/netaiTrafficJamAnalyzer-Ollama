@@ -20,7 +20,7 @@ var aiService = builder.AddProject<Projects.TrafficJamAnalyzer_Microservices_AiA
 
 var scrapService = builder.AddProject<Projects.TrafficJamAnalyzer_Microservices_ScraperApiService>("scrapservice");
 
-var vectorStore = builder.AddProject<Projects.TrafficJamAnalyzer_Microservices_VectorStoreService>("vectorstoreservice")
+var vectorStore = builder.AddProject<Projects.TrafficJamAnalyzer_Microservices_VectorStoreService_Ollama>("vectorstoreservice")
     .WithReference(ollama);
 
 var worker = builder.AddProject<Projects.TrafficJamAnalyzer_Workers_Analyzer>("worker")

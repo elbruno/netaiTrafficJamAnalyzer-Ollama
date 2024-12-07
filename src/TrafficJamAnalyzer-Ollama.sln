@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Apps", "1. Apps", "{1EA7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Microservices", "2. Microservices", "{AD7A9895-B3BD-4093-A5DA-00AF6F530A69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microservices.AiApiService.Ollama", "TrafficJamAnalyzer.Services.AiApiService\TrafficJamAnalyzer.Microservices.AiApiService.Ollama.csproj", "{7CD7E004-57E7-45D0-A81E-EED363683342}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microservices.ScraperApiService", "TrafficJamAnalyzer.Services.ScraperApiService\TrafficJamAnalyzer.Microservices.ScraperApiService.csproj", "{86546881-BF50-431E-84F9-A06B93C34A5E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Aspire", "0. Aspire", "{F00BFFF8-0E39-43E6-833F-DDE830302B6A}"
@@ -34,9 +32,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Shared.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Workers.Analyzer", "TrafficJamAnalyzer.Workers.Analyzer\TrafficJamAnalyzer.Workers.Analyzer.csproj", "{D24453F7-C542-4CFF-84F2-A146F242A933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microservices.VectorStoreService", "TrafficJamAnalyzer.Microservices.VectorStoreService\TrafficJamAnalyzer.Microservices.VectorStoreService.csproj", "{E2DDEC54-91B0-4B6F-89D5-4A8DB32D41FA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Shared.Models.Vectors", "TrafficJamAnalyzer.Shared.Models.Vectors\TrafficJamAnalyzer.Shared.Models.Vectors.csproj", "{FB6E1D16-0F8F-4064-BD31-1861E9E36061}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microservices.AiApiService.Ollama", "TrafficJamAnalyzer.Services.AiApiService.Ollama\TrafficJamAnalyzer.Microservices.AiApiService.Ollama.csproj", "{9FE9C93D-336C-4266-A650-ED12B40711B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microservices.VectorStoreService.Ollama", "TrafficJamAnalyzer.Services.VectorStoreService.Ollama\TrafficJamAnalyzer.Microservices.VectorStoreService.Ollama.csproj", "{6C32054E-C2B7-4020-B704-3CB67500C1EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,10 +60,6 @@ Global
 		{1A2A888F-5138-4B1F-A7DD-52424A6DE7EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A2A888F-5138-4B1F-A7DD-52424A6DE7EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A2A888F-5138-4B1F-A7DD-52424A6DE7EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7CD7E004-57E7-45D0-A81E-EED363683342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7CD7E004-57E7-45D0-A81E-EED363683342}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7CD7E004-57E7-45D0-A81E-EED363683342}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7CD7E004-57E7-45D0-A81E-EED363683342}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86546881-BF50-431E-84F9-A06B93C34A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86546881-BF50-431E-84F9-A06B93C34A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86546881-BF50-431E-84F9-A06B93C34A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -84,14 +80,18 @@ Global
 		{D24453F7-C542-4CFF-84F2-A146F242A933}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D24453F7-C542-4CFF-84F2-A146F242A933}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D24453F7-C542-4CFF-84F2-A146F242A933}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2DDEC54-91B0-4B6F-89D5-4A8DB32D41FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2DDEC54-91B0-4B6F-89D5-4A8DB32D41FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2DDEC54-91B0-4B6F-89D5-4A8DB32D41FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2DDEC54-91B0-4B6F-89D5-4A8DB32D41FA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB6E1D16-0F8F-4064-BD31-1861E9E36061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB6E1D16-0F8F-4064-BD31-1861E9E36061}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB6E1D16-0F8F-4064-BD31-1861E9E36061}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB6E1D16-0F8F-4064-BD31-1861E9E36061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE9C93D-336C-4266-A650-ED12B40711B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE9C93D-336C-4266-A650-ED12B40711B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE9C93D-336C-4266-A650-ED12B40711B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE9C93D-336C-4266-A650-ED12B40711B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C32054E-C2B7-4020-B704-3CB67500C1EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C32054E-C2B7-4020-B704-3CB67500C1EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C32054E-C2B7-4020-B704-3CB67500C1EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C32054E-C2B7-4020-B704-3CB67500C1EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,14 +101,14 @@ Global
 		{1DD56118-8480-4B22-A6BE-C0113A64AB12} = {F00BFFF8-0E39-43E6-833F-DDE830302B6A}
 		{0552DCB8-57CB-4163-B691-35B61490E8B3} = {AD7A9895-B3BD-4093-A5DA-00AF6F530A69}
 		{1A2A888F-5138-4B1F-A7DD-52424A6DE7EB} = {1EA7F640-96A3-4111-A034-75238B737DD0}
-		{7CD7E004-57E7-45D0-A81E-EED363683342} = {AD7A9895-B3BD-4093-A5DA-00AF6F530A69}
 		{86546881-BF50-431E-84F9-A06B93C34A5E} = {AD7A9895-B3BD-4093-A5DA-00AF6F530A69}
 		{A9882491-A2B0-45F3-A0BD-08D11A1DE571} = {B1FC3FA4-A0AE-4071-80C0-3DA44D31E616}
 		{8F157CF8-6AC2-434D-82E7-D5AE68A5F986} = {3D5F8B8E-B32F-4D60-BC4E-004F35A26505}
 		{8EC5DEB6-6CBA-4157-9BDA-7D29BA57A838} = {3D5F8B8E-B32F-4D60-BC4E-004F35A26505}
 		{D24453F7-C542-4CFF-84F2-A146F242A933} = {715620C5-F80C-487A-8441-B785B9F5BDB6}
-		{E2DDEC54-91B0-4B6F-89D5-4A8DB32D41FA} = {AD7A9895-B3BD-4093-A5DA-00AF6F530A69}
 		{FB6E1D16-0F8F-4064-BD31-1861E9E36061} = {3D5F8B8E-B32F-4D60-BC4E-004F35A26505}
+		{9FE9C93D-336C-4266-A650-ED12B40711B8} = {AD7A9895-B3BD-4093-A5DA-00AF6F530A69}
+		{6C32054E-C2B7-4020-B704-3CB67500C1EE} = {AD7A9895-B3BD-4093-A5DA-00AF6F530A69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F73ED8AB-6B8D-48D3-BA77-D2F978CC069C}

@@ -10,9 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrafficJamAnalyzer.ApiService\TrafficJamAnalyzer.Microservices.WebApiService.csproj" />
-    <ProjectReference Include="..\TrafficJamAnalyzer.Microservices.VectorStoreService\TrafficJamAnalyzer.Microservices.VectorStoreService.csproj" />
-    <ProjectReference Include="..\TrafficJamAnalyzer.Services.AiApiService\TrafficJamAnalyzer.Microservices.AiApiService.Ollama.csproj" />
+    <ProjectReference Include="..\TrafficJamAnalyzer.Services.AiApiService.Ollama\TrafficJamAnalyzer.Microservices.AiApiService.Ollama.csproj" />
     <ProjectReference Include="..\TrafficJamAnalyzer.Services.ScraperApiService\TrafficJamAnalyzer.Microservices.ScraperApiService.csproj" />
+    <ProjectReference Include="..\TrafficJamAnalyzer.Services.VectorStoreService.Ollama\TrafficJamAnalyzer.Microservices.VectorStoreService.Ollama.csproj" />
     <ProjectReference Include="..\TrafficJamAnalyzer.Web\TrafficJamAnalyzer.Web.csproj" />
     <ProjectReference Include="..\TrafficJamAnalyzer.Workers.Analyzer\TrafficJamAnalyzer.Workers.Analyzer.csproj" />
   </ItemGroup>
