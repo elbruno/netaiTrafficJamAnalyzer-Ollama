@@ -74,7 +74,7 @@
                                                 <span class="avatar avatar-lg" style="background-image: url(@item.Url)"></span>
                                             </div>
                                             <div class="w-100">
-                                                <div class="subheader">Created at: @FormatDateTime(item.Results.OrderByDescending(x => x.Id).FirstOrDefault()?.CreatedAt)</div>
+                                                <div class="subheader">[@item.Id] Created at: @FormatDateTime(item.Results.OrderByDescending(x => x.Id).FirstOrDefault()?.CreatedAt)</div>
                                                 <div class="d-flex align-items-baseline">
                                                     <div class="h1 mb-3 me-2">@item.Title</div>
                                                     <div class="ms-auto lh-1">
@@ -128,7 +128,7 @@
                                         <span class="avatar avatar-md" style="background-image: url(@traffic.Url)"></span>
                                         <div class="ms-3">
                                             <div class="h2 mb-0">@traffic.Title</div>
-                                            <a href="@traffic.Url" target="_blank" class="text-body subheader">@traffic.Url</a>
+                                            <a href="@traffic.Url" target="_blank" class="text-body subheader">[@traffic.Id] @traffic.Url</a>
                                         </div>
                                         <div class="ms-auto">
                                             <a href="#" @onclick="@(() => ToggleTraffic(traffic.Id))" class="icon d-none d-md-inline-block ms-3 text-red">

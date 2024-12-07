@@ -22,6 +22,11 @@ builder.Services.AddHttpClient<ScrapApiClient>(client =>
     client.BaseAddress = new("https+http://scrapservice");
 });
 
+builder.Services.AddHttpClient<VectorStoreApiClient>(client =>
+{
+    client.BaseAddress = new("https+http://vectorstoreservice");
+});
+
 builder.Services.AddSingleton<WorkerService>();
 
 var app = builder.Build();

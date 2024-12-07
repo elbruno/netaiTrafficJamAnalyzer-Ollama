@@ -87,6 +87,10 @@ app.MapPost("/traffic/{id}/results", async (Context context, int id, TrafficResu
     traffic.Title = trafficResult.TrafficTitle;
 
     context.TrafficResults.Add(trafficResult);
+
+    // save the current traffic amount
+    traffic.CurrentTrafficAmount = trafficResult.TrafficAmount;
+
     await context.SaveChangesAsync();
 
     return Results.Created($"/traffic/{id}/results/{trafficResult.Id}", trafficResult);

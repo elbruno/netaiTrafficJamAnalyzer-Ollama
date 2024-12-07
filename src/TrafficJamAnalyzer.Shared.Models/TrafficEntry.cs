@@ -9,6 +9,7 @@
         public bool Enabled { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public int CurrentTrafficAmount { get; set; }
         public List<TrafficResult> Results { get; set; }
     }
 }

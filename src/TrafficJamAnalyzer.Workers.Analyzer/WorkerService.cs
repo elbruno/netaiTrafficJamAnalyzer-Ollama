@@ -7,6 +7,8 @@ namespace TrafficJamAnalyzer.Workers.Analyzer
     {
         private readonly WebApiClient _webApiClient;
         private readonly AiApiClient _aiApiClient;
+        private readonly VectorStoreApiClient _vectorStoreApiClient;
+
         private readonly ILogger<BackgroundService> _logger;
 
         public DateTime LastRun;
@@ -15,10 +17,12 @@ namespace TrafficJamAnalyzer.Workers.Analyzer
         public WorkerService(
             WebApiClient webApiClient,
             AiApiClient aiApiClient,
+            VectorStoreApiClient vectorStoreApiClient,
             ILogger<BackgroundService> logger)
         {
             _webApiClient = webApiClient;
             _aiApiClient = aiApiClient;
+            _vectorStoreApiClient = vectorStoreApiClient;
             _logger = logger;
             LastRun = DateTime.UtcNow;
         }
@@ -72,7 +76,7 @@ namespace TrafficJamAnalyzer.Workers.Analyzer
 
                             await _webApiClient.UpdateTrafficAsync(traffic.Id, traffic);
 
-                            _logger.LogInformation("Added title to traffic: {Id}", traffic.Id);
+                            _logger.LogInformation($"Added title to traffic: {traffic.Id} - {traffic.Title}");
                         }
 
                         await Task.Delay(TimeSpan.FromSeconds(35));
@@ -93,7 +97,7 @@ namespace TrafficJamAnalyzer.Workers.Analyzer
 
                         foreach (var traffic in traffics.Where(x => x.Enabled))
                         {
-                            _logger.LogInformation("Processing traffic: {Id}", traffic.Id);
+                            _logger.LogInformation($"Processing traffic: {traffic.Id} - {traffic.Title}");
 
                             var identifier = traffic.Url.Split("/").Last().Replace(".jpg", "");
 
@@ -111,8 +115,11 @@ namespace TrafficJamAnalyzer.Workers.Analyzer
                                         CctvDate = analyzeResult.Result.Date
                                     }                                    
                                 );
-                                _logger.LogInformation("Added analysis result for traffic: {Id}", traffic.Id);
+                                _logger.LogInformation($"Added analysis result for traffic: {traffic.Id} - {traffic.Title}");
                             }
+
+                            // add the traffic entry to the vector store
+                            await _vectorStoreApiClient.AddTrafficEntry(traffic);
 
                             await Task.Delay(TimeSpan.FromSeconds(5));
                         }
