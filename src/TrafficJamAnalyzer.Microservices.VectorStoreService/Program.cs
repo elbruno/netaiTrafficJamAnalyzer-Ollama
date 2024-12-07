@@ -79,8 +79,7 @@ app.MapPost("/addTrafficEntry/{identifier}", async (int identifier, TrafficEntry
 
     if (!isMemoryCollectionInitialized)
     {
-        await InitMemoryContextAsync();
-        isMemoryCollectionInitialized = true;
+        await InitMemoryContextAsync(logger);
     }
 
     var trafficHistory = string.Empty;
@@ -107,11 +106,14 @@ Traffic Camera History: {trafficHistory}";
     newTrafficEntry.Vector = result;
 
     var recordId = await trafficEntriesCollection.UpsertAsync(newTrafficEntry);
-    logger.LogInformation($"Traffic Entry added to memory: {trafficEntry.Title} with traffic ammount: [{trafficEntry.CurrentTrafficAmount}] and CCTV Date: {trafficEntry.CctvDate}");
+    logger.LogInformation(@$"Traffic Entry added to memory: {trafficEntry.Title} with traffic ammount: [{trafficEntry.CurrentTrafficAmount}] and CCTV Date: {trafficEntry.CctvDate}.
+Traffic Camera History: {trafficHistory}");
+
+    return true;
 });
 
 // add a new traffic result to the inMemory store
-app.MapGet("/search/{search}", async (string search, ILogger<Program> logger, IChatClient client, OllamaEmbeddingGenerator embeddingGenerator) =>
+app.MapGet(" /search/{search}", async (string search, ILogger<Program> logger, IChatClient client, OllamaEmbeddingGenerator embeddingGenerator) =>
 {
     logger.LogInformation($"Search memory. Search criteria: {search} ");
 
@@ -179,11 +181,13 @@ app.Run();
 logger.LogInformation("Application shut down.");
 
 
-async Task<bool> InitMemoryContextAsync()
+async Task<bool> InitMemoryContextAsync(ILogger<Program> logger)
 {
-    logger.LogInformation("Initializing memory context");
+    logger.LogInformation("Initializing vector store");
     var vectorProductStore = new InMemoryVectorStore();
     trafficEntriesCollection = vectorProductStore.GetCollection<int, TrafficJamAnalyzer.Shared.Models.Vectors.TrafficEntry>("trafficresults");
     await trafficEntriesCollection.CreateCollectionIfNotExistsAsync();
+    isMemoryCollectionInitialized = true;
+    logger.LogInformation("Vector Store initialized.");
     return true;
 }
