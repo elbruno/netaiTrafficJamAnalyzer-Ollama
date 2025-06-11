@@ -1,7 +1,8 @@
 using Newtonsoft.Json;
 using TrafficJamAnalyzer.Shared.Models;
-using Microsoft.Extensions.AI;
-using ChatMessage = Microsoft.Extensions.AI.ChatMessage;
+using OllamaSharp;
+using OllamaSharp.Models;
+using System.Text;
 
 // Builder
 var builder = WebApplication.CreateBuilder(args);
@@ -21,12 +22,12 @@ builder.Services.AddProblemDetails();
 builder.Services.AddHttpClient();
 
 // register chat client
-builder.Services.AddSingleton<IChatClient>(static serviceProvider =>
+builder.Services.AddSingleton<OllamaApiClient>(static serviceProvider =>
 {
     var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
     var config = serviceProvider.GetRequiredService<IConfiguration>();
     var ollamaCnnString = config.GetConnectionString("ollamaVision");
-    var defaultLLM = "llama3.2-vision";
+    var defaultLLM = config.GetValue<string>("OllamaVisionModel") ?? "llama3.2-vision";
 
     // remove the text "Endpoint=" from the ollamaCnnString
     ollamaCnnString = ollamaCnnString.Replace("Endpoint=", string.Empty);
@@ -34,9 +35,11 @@ builder.Services.AddSingleton<IChatClient>(static serviceProvider =>
     logger.LogInformation("Ollama connection string: {0}", ollamaCnnString);
     logger.LogInformation("Default LLM: {0}", defaultLLM);
 
-    IChatClient chatClient = new OllamaChatClient(new Uri(ollamaCnnString), defaultLLM);
+    var client = new OllamaApiClient(new Uri(ollamaCnnString), defaultLLM);
+    // Optionally set a default model for all requests
+    // client.SelectedModel = defaultLLM;
 
-    return chatClient;
+    return client;
 });
 
 var app = builder.Build();
@@ -47,13 +50,13 @@ logger.LogInformation("Application starting up.");
 app.UseHttpsRedirection();
 
 // Map the endpoint with logging
-app.MapGet("/analyze/{identifier}", async (string identifier, ILogger<Program> logger, IChatClient client) =>
+app.MapGet("/analyze/{identifier}", async (string identifier, ILogger<Program> logger, OllamaApiClient client) =>
 {
     logger.LogInformation("Received analyze request with identifier: {Identifier}", identifier);
 
     var imageUrl = $"http://cic.tenerife.es/e-Traffic3/data/{identifier}.jpg";
 
-    var prompt = @"Analyze the image, return a JSON object with the fields 'Title', 'Traffic' and 'Date'. 
+    var userPrompt = @"Analyze the image, return a JSON object with the fields 'Title', 'Traffic' and 'Date'.
 Extract the text from the top left corner of the image and assign the extracted text to the JSON field 'Title'. 
 Extract the text from the bottom right corner of the image and assign the extracted text to the JSON field 'Date'. 
 Analyze the amount of traffic in the image. Based on the amount of traffic, define a value from 0 to 100, where 0 is no traffic and 100 is heavy traffic. Assign the integer value of the traffic to the JSON field 'Traffic'.
@@ -61,7 +64,7 @@ Only provide the JSON result and nothing else.
 Return only the JSON object without any markdown. ";
 
     // read the image url into a byte array
-    byte[] imageByteData = Array.Empty<byte>(); 
+    byte[] imageByteData = Array.Empty<byte>();
     try
     {
         var httpClient = new HttpClient();
@@ -79,8 +82,8 @@ Return only the JSON object without any markdown. ";
     });
     var messages = new List<ChatMessage>
     {
-        imageChatMessage,
-        new(ChatRole.System, prompt)
+        Messages = messages,
+        Model = client.SelectedModel ?? "llama3.2-vision" // Use client's selected model or a default
     };
 
     logger.LogInformation($"Chat history created for image {imageUrl}");
