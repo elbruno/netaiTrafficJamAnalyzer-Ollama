@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 var prompt = builder.Configuration["OpenAI:Prompt"];
 var systemPrompt = "You are a useful assistant that replies using a direct style";
 
-IVectorStoreRecordCollection<int, TrafficJamAnalyzer.Shared.Models.Vectors.TrafficEntry> trafficEntriesCollection = null;
+VectorStoreCollection<int, TrafficJamAnalyzer.Shared.Models.Vectors.TrafficEntry> trafficEntriesCollection = null;
 bool isMemoryCollectionInitialized = false;
 
 // Logging
@@ -102,49 +102,52 @@ Traffic Camera History: {trafficHistory}";
     //var result = await embeddingClient.GenerateEmbeddingAsync(trafficInfo);
     //newTrafficEntry.Vector = result.Value.ToFloats();
 
-    var result = await embeddingGenerator.GenerateEmbeddingVectorAsync(trafficInfo);
-    newTrafficEntry.Vector = result;
+    var result = await embeddingGenerator.GenerateAsync(trafficInfo);
+    newTrafficEntry.Vector = result.Vector;
 
-    var recordId = await trafficEntriesCollection.UpsertAsync(newTrafficEntry);
+    await trafficEntriesCollection.UpsertAsync(newTrafficEntry);
     logger.LogInformation(@$"Traffic Entry added to memory: {trafficEntry.Title} with traffic ammount: [{trafficEntry.CurrentTrafficAmount}] and CCTV Date: {trafficEntry.CctvDate}.
 Traffic Camera History: {trafficHistory}");
 
     return true;
 });
 
-// add a new traffic result to the inMemory store
-app.MapGet(" /search/{search}", async (string search, ILogger<Program> logger, IChatClient client, OllamaEmbeddingGenerator embeddingGenerator) =>
+app.MapGet("/search/{search}", async context =>
 {
-    logger.LogInformation($"Search memory. Search criteria: {search} ");
+    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+    var client = context.RequestServices.GetRequiredService<IChatClient>();
+    var embeddingGenerator = context.RequestServices.GetRequiredService<OllamaEmbeddingGenerator>();
 
-    //var searchCriteriaEmbeddings = await embeddingClient.GenerateEmbeddingAsync(search);
-    //var vectorSearchQuery = searchCriteriaEmbeddings.Value.ToFloats();
-
-    var searchCriteriaEmbeddings = await embeddingGenerator.GenerateEmbeddingVectorAsync(search);
-    var vectorSearchQuery = searchCriteriaEmbeddings;
-
-    var searchOptions = new VectorSearchOptions()
+    var search = context.Request.RouteValues["search"]?.ToString();
+    if (string.IsNullOrEmpty(search))
     {
-        Top = 1,
-        VectorPropertyName = "Vector"
-    };
+        logger.LogWarning("Search criteria is missing.");
+        await context.Response.WriteAsync("Search criteria is missing.");
+        return;
+    }
+
+    logger.LogInformation($"Search memory. Search criteria: {search}");
+
+    var searchCriteriaEmbeddings = await embeddingGenerator.GenerateVectorAsync(search);
+    var vectorSearchQuery = searchCriteriaEmbeddings;
 
     TrafficJamAnalyzer.Shared.Models.Vectors.TrafficEntry firstTrafficEntry = null;
 
-    // search the vector database for the traffic entry
-    var searchResults = await trafficEntriesCollection.VectorizedSearchAsync(vectorSearchQuery, searchOptions);
-    double searchScore = 0.0;
-    await foreach (var searchItem in searchResults.Results)
+    await foreach (var resultItem in trafficEntriesCollection.SearchAsync(vectorSearchQuery, top: 3))
     {
-        if (searchItem.Score > 0.5)
-        {
-            firstTrafficEntry = searchItem.Record;
-        }
+        if (resultItem.Score > 0.5)
+            firstTrafficEntry = resultItem.Record;
+    }
+
+    if (firstTrafficEntry == null)
+    {
+        logger.LogWarning("No traffic entries found matching the search criteria.");
+        await context.Response.WriteAsync("No results found.");
+        return;
     }
 
     var lastTrafficResult = firstTrafficEntry.Results.LastOrDefault();
 
-    // let's improve the response message
     var prompt = @$"You are an intelligent assistant helping clients with their search about traffic entries on a CCTV collection. Generate a catchy and friendly message using the following information:
     - User Question: {search}
     - Found Traffic Camera Name: {firstTrafficEntry.Title}
@@ -157,23 +160,24 @@ The traffic status is a value where 0 is no traffic and 100 is heavy traffic.
 Include the camera name, camera cctv date and more information in the response to the user question.";
 
     var messages = new List<Microsoft.Extensions.AI.ChatMessage>
-    {      
+    {
         new(ChatRole.User, prompt)
     };
 
     logger.LogInformation($"Chat history created for CCTV Camera {firstTrafficEntry.Title}");
 
-    var result = await client.CompleteAsync(messages);
+    var result = await client.GetResponseAsync(messages);
 
-    var content = result.Message.Text!;
+    var content = result.Text!;
 
-    if (String.IsNullOrEmpty(content))
+    if (string.IsNullOrEmpty(content))
     {
         logger.LogWarning("No content received from chatCompletionService.");
-        return "no results";
+        await context.Response.WriteAsync("No results.");
+        return;
     }
 
-    return content;
+    await context.Response.WriteAsync(content);
 });
 
 logger.LogInformation("Application starting up.");
@@ -186,8 +190,9 @@ async Task<bool> InitMemoryContextAsync(ILogger<Program> logger)
     logger.LogInformation("Initializing vector store");
     var vectorProductStore = new InMemoryVectorStore();
     trafficEntriesCollection = vectorProductStore.GetCollection<int, TrafficJamAnalyzer.Shared.Models.Vectors.TrafficEntry>("trafficresults");
-    await trafficEntriesCollection.CreateCollectionIfNotExistsAsync();
+    await trafficEntriesCollection.EnsureCollectionExistsAsync();
     isMemoryCollectionInitialized = true;
     logger.LogInformation("Vector Store initialized.");
+    //Task.Delay(1000).Wait();
     return true;
 }

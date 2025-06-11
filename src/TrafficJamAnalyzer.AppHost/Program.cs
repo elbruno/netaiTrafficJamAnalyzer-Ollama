@@ -2,7 +2,7 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
 var ollama = builder.AddOllama("ollamaVision", port: 11434);
-ollama.AddModel("llama3.2-vision");
+ollama.AddModel("gemma3");
 //ollama.AddModel("phi3.5");
 ollama.AddModel("all-minilm");
 ollama.WithDataVolume();

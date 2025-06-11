@@ -6,8 +6,8 @@ using ChatMessage = Microsoft.Extensions.AI.ChatMessage;
 // Builder
 var builder = WebApplication.CreateBuilder(args);
 
-var prompt = builder.Configuration["OpenAI:Prompt"];
-var systemPrompt = "You are a useful assistant that replies using a direct style";
+//var prompt = builder.Configuration["OpenAI:Prompt"];
+//var systemPrompt = "You are a useful assistant that replies using a direct style";
 
 // Logging
 builder.Logging.ClearProviders();
@@ -18,6 +18,7 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
+builder.Services.AddHttpClient();
 
 // register chat client
 builder.Services.AddSingleton<IChatClient>(static serviceProvider =>
@@ -72,9 +73,10 @@ Return only the JSON object without any markdown. ";
         logger.LogError(ex, "Error downloading image from URL: {ImageUrl}", imageUrl);
     }
 
-
-    var imageChatMessage = new ChatMessage(ChatRole.User, contents: [ new ImageContent(data: imageByteData ) ]);
-
+    var imageChatMessage = new ChatMessage(ChatRole.User, contents: new List<AIContent>
+    {
+        new DataContent(data: imageByteData, mediaType: "image/jpeg")
+    });
     var messages = new List<ChatMessage>
     {
         imageChatMessage,
@@ -83,9 +85,9 @@ Return only the JSON object without any markdown. ";
 
     logger.LogInformation($"Chat history created for image {imageUrl}");
 
-    var result = await client.CompleteAsync(messages);
+    var result = await client.GetResponseAsync(messages);
 
-    var content = result.Message.Text!;
+    var content = result.Text; // .Message.Text!;
 
     if (String.IsNullOrEmpty(content))
     {
@@ -114,7 +116,13 @@ Return only the JSON object without any markdown. ";
     }
 
     return analyzeResult;
-});
+})
+    .WithDisplayName("Analyze Traffic Jam Image")
+    .WithSummary("Analyze a traffic jam image and return the analysis result in JSON format.")
+    .WithName("AnalyzeTrafficJamImage")
+    .Produces<TrafficJamAnalyzeResult>(StatusCodes.Status200OK)
+  .ProducesProblem(StatusCodes.Status400BadRequest)
+  .ProducesProblem(StatusCodes.Status500InternalServerError);
 
 logger.LogInformation("Application starting up.");
 app.Run();

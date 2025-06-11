@@ -3,21 +3,21 @@
 namespace TrafficJamAnalyzer.Shared.Models.Vectors;
 public class TrafficResult
 {
-    [VectorStoreRecordKey]
+    [VectorStoreKey]
     public int Id { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public int TrafficId { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public string TrafficTitle { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public string? CctvDate { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public int TrafficAmount { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public string CreatedAt { get; set; }
 }

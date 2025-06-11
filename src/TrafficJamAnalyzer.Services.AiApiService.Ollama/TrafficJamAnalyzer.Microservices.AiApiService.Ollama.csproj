@@ -8,9 +8,15 @@
   <ItemGroup>
     <ProjectReference Include="..\TrafficJamAnalyzer.ServiceDefaults\TrafficJamAnalyzer.ServiceDefaults.csproj" />
     <ProjectReference Include="..\TrafficJamAnalyzer.Shared.Models\TrafficJamAnalyzer.Shared.Models.csproj" />
-    <PackageReference Include="Aspire.Azure.AI.OpenAI" Version="9.0.0-preview.5.24551.3" />
-    <PackageReference Include="Microsoft.Extensions.AI.Ollama" Version="9.0.1-preview.1.24570.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Aspire.Azure.AI.OpenAI" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.Extensions.AI.Ollama" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.OpenApi" />
+    <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 </Project>

@@ -4,34 +4,34 @@ namespace TrafficJamAnalyzer.Shared.Models.Vectors;
 
 public class TrafficEntry
 {
-    [VectorStoreRecordKey]
+    [VectorStoreKey]
     public int Id { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public string Title { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public string Url { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public string? CctvDate { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public bool Enabled { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public DateTime CreatedAt { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public DateTime UpdatedAt { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public int CurrentTrafficAmount { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public List<TrafficResult> Results { get; set; }
 
-    [VectorStoreRecordVector(384, DistanceFunction.CosineSimilarity)]
+    [VectorStoreVector(384)]
     public ReadOnlyMemory<float> Vector { get; set; }
 
     public static TrafficEntry CreateFromModelsTrafficEntry(Models.TrafficEntry trafficEntryOrigin)
