@@ -24,6 +24,7 @@
     <PackageVersion Include="Microsoft.SemanticKernel.Connectors.AzureAISearch" Version="1.56.0-preview" />
     <PackageVersion Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.56.0-preview" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="OllamaSharp" Version="5.2.2" />
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />

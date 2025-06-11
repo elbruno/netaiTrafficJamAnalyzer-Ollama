@@ -3,6 +3,8 @@ using TrafficJamAnalyzer.Shared.Models;
 using OllamaSharp;
 using OllamaSharp.Models;
 using System.Text;
+using OllamaSharp.Models.Chat;
+using Microsoft.Extensions.AI;
 
 // Builder
 var builder = WebApplication.CreateBuilder(args);
@@ -76,19 +78,17 @@ Return only the JSON object without any markdown. ";
         logger.LogError(ex, "Error downloading image from URL: {ImageUrl}", imageUrl);
     }
 
-    var imageChatMessage = new ChatMessage(ChatRole.User, contents: new List<AIContent>
+    var imageChatMessage = new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, contents: new List<AIContent>
     {
         new DataContent(data: imageByteData, mediaType: "image/jpeg")
     });
-    var messages = new List<ChatMessage>
-    {
-        Messages = messages,
-        Model = client.SelectedModel ?? "llama3.2-vision" // Use client's selected model or a default
-    };
+    var messages = new List<ChatMessage>();   
+    messages.Add(imageChatMessage);
+    messages.Add(new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, userPrompt));
 
     logger.LogInformation($"Chat history created for image {imageUrl}");
 
-    var result = await client.GetResponseAsync(messages);
+    var result = await client.GetResponseAsync<string>(messages: messages);
 
     var content = result.Text; // .Message.Text!;
 
