@@ -36,7 +36,7 @@ builder.Services.AddSingleton<OllamaEmbeddingGenerator>(static serviceProvider =
     var defaultLLM = "all-minilm";
 
     // remove the text "Endpoint=" from the ollamaCnnString
-    ollamaCnnString = ollamaCnnString.Replace("Endpoint=", string.Empty);
+    ollamaCnnString = ollamaCnnString?.Replace("Endpoint=", string.Empty) ?? string.Empty;
 
     logger.LogInformation("Ollama connection string: {0}", ollamaCnnString);
     logger.LogInformation("Default LLM: {0}", defaultLLM);
@@ -55,7 +55,7 @@ builder.Services.AddSingleton<IChatClient>(static serviceProvider =>
     var defaultLLM = "llama3.2-vision";
 
     // remove the text "Endpoint=" from the ollamaCnnString
-    ollamaCnnString = ollamaCnnString.Replace("Endpoint=", string.Empty);
+    ollamaCnnString = ollamaCnnString?.Replace("Endpoint=", string.Empty) ?? string.Empty;
 
     logger.LogInformation("Ollama connection string: {0}", ollamaCnnString);
     logger.LogInformation("Default LLM: {0}", defaultLLM);
