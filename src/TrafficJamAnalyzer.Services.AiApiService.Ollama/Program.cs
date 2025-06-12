@@ -23,6 +23,10 @@ builder.AddServiceDefaults();
 builder.Services.AddProblemDetails();
 builder.Services.AddHttpClient();
 
+// Add OpenAPI services
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi();
+
 // register chat client
 builder.Services.AddSingleton<OllamaApiClient>(static serviceProvider =>
 {
@@ -32,7 +36,7 @@ builder.Services.AddSingleton<OllamaApiClient>(static serviceProvider =>
     var defaultLLM = config.GetValue<string>("OllamaVisionModel") ?? "llama3.2-vision";
 
     // remove the text "Endpoint=" from the ollamaCnnString
-    ollamaCnnString = ollamaCnnString.Replace("Endpoint=", string.Empty);
+    ollamaCnnString = ollamaCnnString?.Replace("Endpoint=", string.Empty) ?? string.Empty;
 
     logger.LogInformation("Ollama connection string: {0}", ollamaCnnString);
     logger.LogInformation("Default LLM: {0}", defaultLLM);
@@ -50,6 +54,12 @@ logger.LogInformation("Application starting up.");
 
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
+
+// Add OpenAPI middleware in development
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
 
 // Map the endpoint with logging
 app.MapGet("/analyze/{identifier}", async (string identifier, ILogger<Program> logger, OllamaApiClient client) =>
