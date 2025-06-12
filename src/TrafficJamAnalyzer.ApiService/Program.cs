@@ -50,6 +50,9 @@ app.MapPut("/toggle-traffic/{id}", async (Context context, int id) =>
 // Endpoint to add a single TrafficEntry
 app.MapPost("/traffic", async (Context context, TrafficEntry trafficEntry) =>
 {
+    if (string.IsNullOrWhiteSpace(trafficEntry.Title))
+        return Results.BadRequest("Title cannot be null or empty.");
+
     trafficEntry.CreatedAt = DateTime.UtcNow;
     trafficEntry.UpdatedAt = DateTime.UtcNow;
 
@@ -62,6 +65,9 @@ app.MapPost("/traffic", async (Context context, TrafficEntry trafficEntry) =>
 // Endpoint to add a single TrafficEntry
 app.MapPost("/traffic/{id}/title", async (Context context, int id, TrafficEntry trafficEntry) =>
 {
+    if (string.IsNullOrWhiteSpace(trafficEntry.Title))
+        return Results.BadRequest("Title cannot be null or empty.");
+
     var traffic = await context.Traffics.FindAsync(id);
     if (traffic == null)
         return Results.NotFound();
@@ -83,6 +89,8 @@ app.MapPost("/traffic/{id}/results", async (Context context, int id, TrafficResu
 
     trafficResult.TrafficId = traffic.Id;
     trafficResult.CreatedAt = DateTime.Now.ToString("o"); // Set created date to current date-time
+
+    trafficResult.TrafficTitle = traffic.Title ?? "Default Title";
 
     traffic.Title = trafficResult.TrafficTitle;
 

@@ -5,6 +5,7 @@ using OllamaSharp.Models;
 using System.Text;
 using OllamaSharp.Models.Chat;
 using Microsoft.Extensions.AI;
+using System.Text.RegularExpressions;
 
 // Builder
 var builder = WebApplication.CreateBuilder(args);
@@ -68,12 +69,22 @@ app.MapGet("/analyze/{identifier}", async (string identifier, ILogger<Program> l
 
     var imageUrl = $"http://cic.tenerife.es/e-Traffic3/data/{identifier}.jpg";
 
-    var userPrompt = @"Analyze the image, return a JSON object with the fields 'Title', 'Traffic' and 'Date'.
-Extract the text from the top left corner of the image and assign the extracted text to the JSON field 'Title'. 
-Extract the text from the bottom right corner of the image and assign the extracted text to the JSON field 'Date'. 
-Analyze the amount of traffic in the image. Based on the amount of traffic, define a value from 0 to 100, where 0 is no traffic and 100 is heavy traffic. Assign the integer value of the traffic to the JSON field 'Traffic'.
-Only provide the JSON result and nothing else. 
-Return only the JSON object without any markdown. ";
+    var userPrompt = @"You are analyzing a CCTV traffic camera image. Your task is to extract and return a single, valid JSON object with the following fields: 'Title', 'Traffic', and 'Date'.
+
+Instructions:
+- 'Title': Extract ONLY the text visible in the top left corner of the image and assign it to this field.
+- 'Date': Extract ONLY the text visible in the bottom right corner of the image and assign it to this field.
+- 'Traffic': Analyze the visible road area and estimate the current traffic level as an integer from 0 (no traffic) to 100 (maximum congestion), based on the number of vehicles and the degree of congestion you observe.
+
+Requirements:
+- The image is from a real-time traffic CCTV camera. Focus on the road and vehicles for the 'Traffic' value.
+- Do NOT include any information not visible in the image.
+- Return ONLY a single valid JSON object, with no extra text, explanation, or markdown formatting.
+- The JSON must have exactly these three fields: 'Title', 'Date', and 'Traffic'.
+
+Example output:
+{""Title"": ""3M-TVM-21 (Túnel 3 de Mayo)"", ""Date"": ""12/06/2025 18:47"", ""Traffic"": 0}
+";
 
     // read the image url into a byte array
     byte[] imageByteData = Array.Empty<byte>();
@@ -113,18 +124,26 @@ Return only the JSON object without any markdown. ";
     {
         logger.LogInformation("Content received: {Content}", content);
 
-        analyzeResult = new TrafficJamAnalyzeResult
+        // Use the new parser class
+        var parsed = await TrafficJamAnalyzeParser.ParseAsync(content, logger, client, imageChatMessage);
+        if (parsed != null)
         {
-            CreatedAt = DateTime.UtcNow,
-            Result = JsonConvert.DeserializeObject<TrafficJamAnalyze>(content)!,
-            SourceUrl = imageUrl
-        };
-
-        logger.LogInformation("Analysis result created: {AnalyzeResult}", JsonConvert.SerializeObject(analyzeResult));
+            analyzeResult = new TrafficJamAnalyzeResult
+            {
+                CreatedAt = DateTime.UtcNow,
+                Result = parsed,
+                SourceUrl = imageUrl
+            };
+            logger.LogInformation("Analysis result created: {AnalyzeResult}", JsonConvert.SerializeObject(analyzeResult));
+        }
+        else
+        {
+            logger.LogWarning("Content could not be parsed into a valid TrafficJamAnalyze object.");
+        }
     }
     catch (Exception exc)
     {
-        logger.LogError(exc, "error deserializing the content response from LLM");
+        logger.LogError(exc, "error processing the content response from LLM");
         return analyzeResult;
     }
 
