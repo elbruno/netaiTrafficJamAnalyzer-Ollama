@@ -9,7 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TrafficJamAnalyzer.Services.AiApiService.Ollama\TrafficJamAnalyzer.Microservices.AiApiService.Ollama.csproj" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <ProjectReference Include="..\TrafficJamAnalyzer.Shared.Models\TrafficJamAnalyzer.Shared.Models.csproj" />
   </ItemGroup>
 
 </Project>
