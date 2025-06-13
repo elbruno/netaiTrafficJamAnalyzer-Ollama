@@ -1,0 +1,47 @@
+messages:
+  - role: system
+    content: You are a helpful assistant that breaks down action items from a meeting
+  - role: user
+    content: >-
+      You are analyzing a CCTV traffic camera image. Your task is to extract and
+      return a single, valid JSON object with the following fields: 'Title',
+      'Traffic', and 'Date'.
+
+
+      Instructions:
+
+      - 'Title': Extract ONLY the text visible in the top left corner of the
+      image and assign it to this field.
+
+      - 'Date': Extract ONLY the text visible in the bottom right corner of the
+      image and assign it to this field.
+
+      - 'Traffic': Analyze the visible road area and estimate the current
+      traffic level as an integer from 0 (no traffic) to 100 (maximum
+      congestion), based on the number of vehicles and the degree of congestion
+      you observe.
+
+
+      Requirements:
+
+      - The image is from a real-time traffic CCTV camera. Focus on the road and
+      vehicles for the 'Traffic' value.
+
+      - Do NOT include any information not visible in the image.
+
+      - Return ONLY a single valid JSON object, with no extra text, explanation,
+      or markdown formatting.
+
+      - The JSON must have exactly these three fields: 'Title', 'Date', and
+      'Traffic'.
+
+
+      Example output:
+
+      {""Title"": ""3M-TVM-21 (Túnel 3 de Mayo)"", ""Date"": ""12/06/2025
+      18:47"", ""Traffic"": 0}
+
+
+      Input: {{Image}}
+model: openai/gpt-4.1-mini
+responseFormat: json_object
