@@ -1,0 +1,15 @@
+﻿<Project Sdk="MSTest.Sdk/3.8.3">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseVSTest>true</UseVSTest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TrafficJamAnalyzer.Services.AiApiService.Ollama\TrafficJamAnalyzer.Microservices.AiApiService.Ollama.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -38,6 +38,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microservices.VectorStoreService.Ollama", "TrafficJamAnalyzer.Services.VectorStoreService.Ollama\TrafficJamAnalyzer.Microservices.VectorStoreService.Ollama.csproj", "{6C32054E-C2B7-4020-B704-3CB67500C1EE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Tests", "6. Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Microservices.AiApiService.Ollama.Tests", "TrafficJamAnalyzer.Microservices.AiApiService.Ollama.Tests\TrafficJamAnalyzer.Microservices.AiApiService.Ollama.Tests.csproj", "{9266C46E-5C9A-46D2-8C65-0B5566C80332}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficJamAnalyzer.Services.TrafficService.Tests", "TrafficJamAnalyzer.Services.TrafficService.Tests\TrafficJamAnalyzer.Services.TrafficService.Tests.csproj", "{4B4A642C-DFAA-4C84-B000-A3DF49E0F3C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +98,14 @@ Global
 		{6C32054E-C2B7-4020-B704-3CB67500C1EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C32054E-C2B7-4020-B704-3CB67500C1EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C32054E-C2B7-4020-B704-3CB67500C1EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9266C46E-5C9A-46D2-8C65-0B5566C80332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9266C46E-5C9A-46D2-8C65-0B5566C80332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9266C46E-5C9A-46D2-8C65-0B5566C80332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9266C46E-5C9A-46D2-8C65-0B5566C80332}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B4A642C-DFAA-4C84-B000-A3DF49E0F3C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B4A642C-DFAA-4C84-B000-A3DF49E0F3C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B4A642C-DFAA-4C84-B000-A3DF49E0F3C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B4A642C-DFAA-4C84-B000-A3DF49E0F3C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +123,8 @@ Global
 		{FB6E1D16-0F8F-4064-BD31-1861E9E36061} = {3D5F8B8E-B32F-4D60-BC4E-004F35A26505}
 		{9FE9C93D-336C-4266-A650-ED12B40711B8} = {AD7A9895-B3BD-4093-A5DA-00AF6F530A69}
 		{6C32054E-C2B7-4020-B704-3CB67500C1EE} = {AD7A9895-B3BD-4093-A5DA-00AF6F530A69}
+		{9266C46E-5C9A-46D2-8C65-0B5566C80332} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{4B4A642C-DFAA-4C84-B000-A3DF49E0F3C8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F73ED8AB-6B8D-48D3-BA77-D2F978CC069C}
