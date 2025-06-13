@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -24,7 +23,7 @@ public static class TrafficJamAnalyzeParser
         // Fallback: Use AI to extract fields
         try
         {
-            var titlePrompt = "You are analyzing a CCTV traffic camera image. Your task is to extract and return ONLY the text visible in the top left corner of the image as a plain string. Do NOT return JSON, Markdown, HTML, or any explanation. Only the text itself.\nSample output: '3M-TVM-21 (Túnel 3 de Mayo)'";
+            var titlePrompt = "You are analyzing a CCTV traffic camera image. Your task is to extract and return ONLY the text visible in the top left corner of the image as a plain string. Do NOT return JSON, Markdown, HTML, or any explanation. Only the text itself.\nSample output: '3M-TVM-21 (Tï¿½nel 3 de Mayo)'";
             var datePrompt = "You are analyzing a CCTV traffic camera image. Your task is to extract and return ONLY the text visible in the bottom right corner of the image as a plain string. The text represents a Date. Do NOT return JSON, Markdown, HTML, or any explanation. Only the date string.\nSample output: '12/06/2025 18:47'";
             var trafficPrompt = "You are analyzing a CCTV traffic camera image. Your task is to analyze the visible road area and return ONLY the estimated current traffic level as an integer from 0 (no traffic) to 100 (maximum congestion). Do NOT return JSON, Markdown, HTML, or any explanation. Only the integer value.\nSample output: '0'\nSample output: '77'";
 
@@ -147,7 +146,7 @@ public static class TrafficJamAnalyzeParser
         var response = result.Text;
         logger.LogInformation("Response received from AnalyzeImage: {Response}", response);
 
-        // if the information is in this format '{ "data": "3M-TVM-21 (Túnel 3 de Mayo)" }', remove the { "data": " and the end " } to return only the value
+        // if the information is in this format '{ "data": "3M-TVM-21 (Tï¿½nel 3 de Mayo)" }', remove the { "data": " and the end " } to return only the value
         if (response.StartsWith("{ \"data\": \"") && response.EndsWith("\" }"))
         {
             response = response[11..^3]; // Remove '{ "data": "' and the ending '" }'

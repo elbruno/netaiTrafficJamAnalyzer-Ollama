@@ -16,6 +16,7 @@
     <PackageVersion Include="Microsoft.Extensions.AI.Ollama" Version="9.6.0-preview.1.25310.2" />
     <PackageVersion Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.6" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.6.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0-preview.5.25277.114" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />

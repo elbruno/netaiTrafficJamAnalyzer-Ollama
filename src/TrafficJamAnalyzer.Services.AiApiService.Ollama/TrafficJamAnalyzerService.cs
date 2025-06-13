@@ -6,6 +6,7 @@ using System.Text;
 using OllamaSharp.Models.Chat;
 using Microsoft.Extensions.AI;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 
 namespace TrafficJamAnalyzer.Services.AiApiService.Ollama
 {
@@ -42,7 +43,7 @@ Requirements:
 - The JSON must have exactly these three fields: 'Title', 'Date', and 'Traffic'.
 
 Example output:
-{""Title"": ""3M-TVM-21 (Túnel 3 de Mayo)"", ""Date"": ""12/06/2025 18:47"", ""Traffic"": 0}
+{""Title"": ""3M-TVM-21 (Tï¿½nel 3 de Mayo)"", ""Date"": ""12/06/2025 18:47"", ""Traffic"": 0}
 ";
 
             byte[] imageByteData = System.Array.Empty<byte>();
